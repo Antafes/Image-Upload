@@ -211,6 +211,8 @@ function createThumbnail($imagelist_id)
 	elseif ($mimetype == 'image/gif')
 		imagegif($new_image, $thumbLocation);
 
+	chmod($thumbLocation, 0644);
+
 	imagedestroy($image);
 	imagedestroy($new_image);
 }
