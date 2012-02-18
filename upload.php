@@ -36,7 +36,7 @@ a {
 		<input type="hidden" name="submitted" value="true" />
 	</form>
 <?php
-include('lib/db.php');
+include('lib/config.php');
 include('lib/mysql.php');
 $con = mysql_connect($host, $user, $password);
 mysql_select_db($db);

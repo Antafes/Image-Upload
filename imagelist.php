@@ -36,7 +36,7 @@ a {
 	<a href="upload.php">Zum Upload</a>
 	<a href="logout.php">Logout</a>
 <?php
-require_once('lib/db.php');
+require_once('lib/config.php');
 require_once('lib/mysql.php');
 require_once('lib/functions.php');
 $con = mysql_connect($host, $user, $password);
