@@ -1,4 +1,6 @@
 <?php
+require_once(dirname(__FILE__).'/config.php');
+
 /**
  * handles the mysql_query
  * if the query is a select, it returns an array if there is only one value, otherwise it returns the value
@@ -11,7 +13,15 @@
  */
 function mysqlQuery($sql, $noTransform = false)
 {
-	global $con, $debug;
+	global $debug;
+	static $con;
+
+	if (!$con)
+	{
+		$con = mysql_connect($GLOBALS['db']['host'], $GLOBALS['db']['user'], $GLOBALS['db']['password']);
+		mysql_select_db($GLOBALS['db']['db'], $con);
+	}
+
 	$sql = ltrim($sql);
 	if ($debug == true)
 		$res = mysql_query($sql, $con);
@@ -79,4 +89,14 @@ function mysqlQuery($sql, $noTransform = false)
 	}
 	else
 		return false;
+}
+
+/**
+ * escapes a value for sql queries
+ * @param mixed $value
+ * @return String
+ */
+function sqlval($value)
+{
+	return '"'.addslashes($value).'"';
 }

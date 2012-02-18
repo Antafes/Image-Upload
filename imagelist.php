@@ -6,62 +6,45 @@ if (!$_SESSION['user'])
 	header('Location: login.php');
 	die();
 }
-?>
-<html>
-<head>
-<title>Image List</title>
-</head>
-<style type="text/css">
-img {
-	border: 0 none;
-	max-width: 100px;
-}
 
-a {
-	text-decoration: none;
-}
-
-.left {
-	float: left;
-	margin-right: 10px;
-	text-align: center;
-}
-
-.row
-{
-	margin-top: 10px;
-}
-</style>
-<body>
-	<a href="upload.php">Zum Upload</a>
-	<a href="logout.php">Logout</a>
-<?php
-require_once('lib/config.php');
 require_once('lib/mysql.php');
 require_once('lib/functions.php');
-$con = mysql_connect($host, $user, $password);
-mysql_select_db($db);
+?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="de" lang="de">
+<head>
+	<title>Image Upload</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="author" content="Marian Pollzien" />
+<meta http-equiv="cache-control" content="no-cache" />
+<link rel="stylesheet" type="text/css" href="css/style.css" />
+</head>
+<body id="imagelist">
+<?php
+require_once('menu.php');
 
 if ($_GET['userID'] || $_SESSION['user'])
 {
 	$sql = '
-		SELECT * FROM imagelist
-		WHERE userID = '.mysql_real_escape_string($_SESSION['user'] ? $_SESSION['user'] : $_GET['userID']).'
+		SELECT
+			hash,
+			DATE(add_datetime) AS add_date
+		FROM imagelist
+		WHERE userID = '.sqlval($_SESSION['user'] ? $_SESSION['user'] : $_GET['userID']).'
 	';
 	$data = mysqlQuery($sql, true);
 
 	$row = 0;
 	foreach ($data as $image)
 	{
-		$image_date = date_create_from_format('Y-m-d H:i:s', $image['add_datetime']);
-		if (checkImage($image['hash'], $image_date->format('Y-m-d')) === 'Kein Bild gefunden')
+		if (checkImage($image['hash'], DateTime::createFromFormat('Y-m-d', $image['add_date']), false) === 'Kein Bild gefunden')
 			continue;
 
 		if ($row === 0)
 			echo '<div class="row">'."\n";
 
 		echo '<div class="left">'."\n";
-		echo '<a href="index.php?image='.$image['hash'].substr($image['add_datetime'], 0, 10).'"><img src="index.php?image='.$image['hash'].substr($image['add_datetime'], 0, 10).'" /><br />'."\n";
+		echo '<a href="index.php?image='.$image['hash'].$image['add_date'].'"><img src="index.php?image='.$image['hash'].$image['add_date'].'&amp;showThumb=1" /><br />'."\n";
 		echo $dir.'</a>'."\n";
 		echo '</div>'."\n";
 		$row++;

@@ -7,12 +7,20 @@ if ($_SESSION['user'])
 	die();
 }
 
-require_once('lib/config.php');
 require_once('lib/mysql.php');
 
-$con = mysql_connect($host, $user, $password);
-mysql_select_db($db);
-
+?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="de" lang="de">
+<head>
+	<title>Image Upload</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="author" content="Marian Pollzien" />
+<meta http-equiv="cache-control" content="no-cache" />
+<link rel="stylesheet" type="text/css" href="css/style.css" />
+</head>
+<body id="login">
+<?php
 if (!$_GET['mode'])
 {
 	if ($_POST['nick'] && $_POST['password'])
@@ -23,7 +31,7 @@ if (!$_GET['mode'])
 				nick,
 				password
 			FROM users
-			WHERE nick = "'.mysql_real_escape_string($_POST['nick']).'"
+			WHERE nick = '.sqlval($_POST['nick']).'
 		';
 		$user = mysqlQuery($sql);
 
@@ -73,9 +81,9 @@ else
 					email,
 					createdDatetime
 				) VALUES (
-					"'.mysql_real_escape_string($_POST['nick']).'",
-					"'.mysql_real_escape_string(md5($_POST['password'])).'",
-					"'.mysql_real_escape_string($_POST['email']).'",
+					'.sqlval($_POST['nick']).',
+					'.sqlval(md5($_POST['password'])).',
+					'.sqlval($_POST['email']).',
 					NOW()
 				)
 			';
@@ -122,3 +130,6 @@ else
 </form>
 <?php
 }
+?>
+</body>
+</html>
