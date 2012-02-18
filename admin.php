@@ -19,6 +19,7 @@ if ($_GET['do'])
 			$sql = '
 				SELECT imagelist_id
 				FROM imagelist
+				WHERE !deleted
 			';
 			$imagelist = mysqlQuery($sql, true);
 
@@ -48,7 +49,7 @@ require_once(dirname(__FILE__).'/menu.php');
 	<a href="admin.php?do=recreateThumbs">Thumbnails neu erstellen</a>
 <?php
 if ($_GET['recreate'] == 'done')
-	echo utf8_encode('<br />Thumbnails neu erstellt.');
+	echo '<br />Thumbnails neu erstellt.';
 ?>
 </body>
 </html>

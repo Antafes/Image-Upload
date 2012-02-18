@@ -13,7 +13,6 @@ require_once(dirname(__FILE__).'/config.php');
  */
 function mysqlQuery($sql, $noTransform = false)
 {
-	global $debug;
 	static $con;
 
 	if (!$con)
@@ -23,10 +22,12 @@ function mysqlQuery($sql, $noTransform = false)
 	}
 
 	$sql = ltrim($sql);
-	if ($debug == true)
+
+	if ($GLOBALS['config']['debug'] == true)
 		$res = mysql_query($sql, $con);
 	else
 		$res = @mysql_query($sql, $con);
+
 	if (!$res)
 	{
 		$backtrace = debug_backtrace();

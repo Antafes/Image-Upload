@@ -9,6 +9,18 @@ if (!$_SESSION['user'])
 
 require_once('lib/mysql.php');
 require_once('lib/functions.php');
+
+if ($_GET['delete'])
+{
+	$sql = '
+		UPDATE imagelist
+		SET deleted = 1
+		WHERE imagelist_id = '.sqlval($_GET['delete']).'
+	';
+	mysqlQuery($sql);
+
+	header('Location: imagelist.php');
+}
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="de" lang="de">
@@ -27,10 +39,12 @@ if ($_GET['userID'] || $_SESSION['user'])
 {
 	$sql = '
 		SELECT
+			imagelist_id,
 			hash,
 			DATE(add_datetime) AS add_date
 		FROM imagelist
 		WHERE userID = '.sqlval($_SESSION['user'] ? $_SESSION['user'] : $_GET['userID']).'
+			AND !deleted
 	';
 	$data = mysqlQuery($sql, true);
 
@@ -45,7 +59,8 @@ if ($_GET['userID'] || $_SESSION['user'])
 
 		echo '<div class="left">'."\n";
 		echo '<a href="index.php?image='.$image['hash'].$image['add_date'].'"><img src="index.php?image='.$image['hash'].$image['add_date'].'&amp;showThumb=1" /><br />'."\n";
-		echo $dir.'</a>'."\n";
+		echo $dir.'</a><br />'."\n";
+		echo '<a href="imagelist.php?delete='.$image['imagelist_id'].'">löschen</a>';
 		echo '</div>'."\n";
 		$row++;
 

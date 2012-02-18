@@ -13,11 +13,24 @@ function checkImage($hash, DateTime $date, $showImage, $showThumb = false)
 		SELECT
 			imagelist_id,
 			mimetype,
-			DATE(add_datetime) add_date
+			DATE(add_datetime) add_date,
+			deleted
 		FROM imagelist
 		WHERE hash = '.sqlval($hash).'
 	';
 	$imageArray = mysqlQuery($sql);
+
+	if ($imageArray['deleted'])
+	{
+		header('Content-type: image/png');
+		$image = imagecreatetruecolor(400, 100);
+		imagefill($image, 0, 0, imagecolorallocatealpha($image, 255, 255, 255, 0));
+		imagettftext($image, 12, 0, 100, 56, imagecolorallocate($image, 0, 0, 0), 'lib/arial.ttf', 'Das Bild wurde gelöscht!');
+		imagepng($image);
+		imagedestroy($image);
+
+		return null;
+	}
 
 	if (DateTime::createFromFormat('Y-m-d', $imageArray['add_date']) == $date)
 	{

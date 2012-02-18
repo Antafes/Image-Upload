@@ -57,7 +57,7 @@ if ($_POST['submitted'] == 'true')
 			break;
 	}
 
-	echo utf8_encode($text);
+	echo $text;
 }
 ?>
 </body>
