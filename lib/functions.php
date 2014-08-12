@@ -79,6 +79,23 @@ function processImage($file)
 	$userfile_size = $file['size'][0];
 	$userfile_type = $file['type'][0];
 
+	if (empty($userfile_type)) {
+		$fileNameParts = explode('.', $userfile_name);
+
+		switch ($fileNameParts[count($fileNameParts) - 1]) {
+			case 'png':
+				$userfile_type = 'image/png';
+				break;
+			case 'jpg':
+			case 'jpeg':
+				$userfile_type = 'image/jpeg';
+				break;
+			case 'gif':
+				$userfile_type = 'image/gif';
+				break;
+		}
+	}
+
 	if (!$userfile_name)
 		return 'no_file';
 	else
@@ -139,7 +156,7 @@ function processImage($file)
 			if ($userfile_type == 'image/jpeg')
 				imagejpeg($new_image, $location);
 			elseif ($userfile_type == 'image/png')
-				imagpng($new_image, $location);
+				imagepng($new_image, $location);
 			elseif ($userfile_type == 'image/gif')
 				imagegif($new_image, $location);
 
@@ -207,7 +224,7 @@ function createThumbnail($imagelist_id)
 	if ($mimetype == 'image/jpeg')
 		imagejpeg($new_image, $thumbLocation);
 	elseif ($mimetype == 'image/png')
-		imagpng($new_image, $thumbLocation);
+		imagepng($new_image, $thumbLocation);
 	elseif ($mimetype == 'image/gif')
 		imagegif($new_image, $thumbLocation);
 
