@@ -46,7 +46,7 @@ class Images extends \SmartWork\Listing
 			FROM images
 			WHERE !deleted
 				AND `userId` = '.\sqlval($_SESSION['userId']).'
-			ORDER BY imagename
+			ORDER BY add_datetime
 		';
 		$imageIds = query($sql, true);
 		$obj = new self();
