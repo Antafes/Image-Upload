@@ -1,7 +1,7 @@
 /nbproject
 /templates_c/*
 /lib/config.php
-index.php
+/index.php
 db_migrations/migrations.php
 db_migrations/transformToMigrations.php
 /uploads/*
