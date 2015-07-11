@@ -1,0 +1,23 @@
+#head
+{
+	margin-bottom: 10px;
+}
+
+#logo
+{
+	margin-bottom: 10px;
+	height: 63px;
+}
+
+#logo strong
+{
+	line-height: 63px;
+	vertical-align: text-bottom;
+	margin-left: 20px;
+	font-size: 30px;
+}
+
+#head div
+{
+	float: left;
+}

@@ -1,5 +1,8 @@
-
 /nbproject
+/templates_c/*
 /lib/config.php
-/images/*
+index.php
+db_migrations/migrations.php
+db_migrations/transformToMigrations.php
+/uploads/*
 /thumbs/*
