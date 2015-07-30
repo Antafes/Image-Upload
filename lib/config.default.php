@@ -24,10 +24,21 @@
 $GLOBALS['config']['thumbsDir'] = 'thumbs';
 $GLOBALS['config']['imageDir'] = 'uploads';
 $GLOBALS['config']['maxImageFileSize'] = 3145728;
-$GLOBALS['hooks']['Display']['checkPage'] = array();
+
+if (!is_array($GLOBALS['hooks']['Display']['checkPage']))
+{
+	$GLOBALS['hooks']['Display']['checkPage'] = array();
+}
 // Shorten the link for displaying images, this also gives backwards compatibility
 $GLOBALS['hooks']['Display']['checkPage'][] = function ($pageName) {
 	if ($pageName == 'Index' && $_GET['image']) {
 		return 'Image';
 	}
 };
+
+if (!is_array($GLOBALS['config']['Display']['pagesWithoutLogin']))
+{
+	$GLOBALS['config']['Display']['pagesWithoutLogin'] = array();
+}
+
+$GLOBALS['config']['Display']['pagesWithoutLogin'][] = 'Image';
