@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of Image Upload.
  *
@@ -37,6 +38,7 @@ class Thumb extends \SmartWork\Page
 	 */
 	public function __construct()
 	{
+        parent::__construct('');
 	}
 
 	/**
@@ -46,19 +48,12 @@ class Thumb extends \SmartWork\Page
 	 */
 	public function process()
 	{
+        $this->doRender = false;
+
 		$hash = substr($_GET['image'], 0, -10);
 		$date = substr($_GET['image'], -10);
 
 		$image = \Model\Image::loadByHash($hash);
 		echo $image->getImage($hash, $date, true, true);
-	}
-
-	/**
-	 * Nothing to render, all is done in the process method.
-	 *
-	 * @return void
-	 */
-	public function render()
-	{
 	}
 }

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of Image Upload.
  *
@@ -47,7 +48,7 @@ class Login extends \SmartWork\Page
 	 */
 	public function process()
 	{
-		$this->logIn($_POST['username'], $_POST['password'], $_POST['login']);
+		$this->logIn(strval($_POST['username']), strval($_POST['password']), strval($_POST['login']));
 	}
 
 	/**
@@ -59,7 +60,7 @@ class Login extends \SmartWork\Page
 	 *
 	 * @return void
 	 */
-	protected function logIn($username, $password, $salt)
+	protected function logIn(string $username, string $password, string $salt)
 	{
 		if (!$salt || $salt != $_SESSION['formSalts']['login'])
 			return;

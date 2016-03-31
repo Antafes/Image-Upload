@@ -99,11 +99,7 @@ $DB_MIGRATION = array(
 		');
 
 		$results[] = query_raw('
-			INSERT INTO `translations` (`languageId`, `key`, `value`, `deleted`) VALUES (1, "fileUploaded", "Dateiname: <a href="index.php?page=Image&
-		');
-
-		$results[] = query_raw('
-			image=##IMAGEKEY##">##FILENAME##</a><br />\r\nGröße: ##FILESIZE## KB<br />\r\nLink: ##FILELINK##<br />", 0)
+			INSERT INTO `translations` (`languageId`, `key`, `value`, `deleted`) VALUES (1, "fileUploaded", "Dateiname: <a href="index.php?page=Image&amp;image=##IMAGEKEY##">##FILENAME##</a><br />\r\nGröße: ##FILESIZE## KB<br />\r\nLink: ##FILELINK##<br />", 0)
 		');
 
 		return !in_array(false, $results);

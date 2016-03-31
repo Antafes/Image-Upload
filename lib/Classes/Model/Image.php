@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of Image Upload.
  *
@@ -98,7 +99,7 @@ class Image extends \SmartWork\Model
 	 *
 	 * @return \self
 	 */
-	public static function loadById($id)
+	public static function loadById(int $id): Image
 	{
 		$sql = '
 			SELECT
@@ -126,7 +127,7 @@ class Image extends \SmartWork\Model
 	 *
 	 * @return \self
 	 */
-	public static function loadByHash($hash)
+	public static function loadByHash(string $hash): Image
 	{
 		$sql = '
 			SELECT
@@ -155,13 +156,13 @@ class Image extends \SmartWork\Model
 	 *
 	 * @return void
 	 */
-	public function fill($data)
+	public function fill(array $data)
 	{
 		foreach ($data as $key => $value)
 		{
 			if ($key === 'userId')
 			{
-				$this->user = \SmartWork\User::getUserById($value);
+				$this->user = \SmartWork\User::getUserById(intval($value));
 			}
 			elseif ($key === 'add_datetime')
 			{
@@ -183,7 +184,7 @@ class Image extends \SmartWork\Model
 	 *
 	 * @return array
 	 */
-	public function getAsArray()
+	public function getAsArray(): array
 	{
 		return array(
 			'imageId' => $this->getImageId(),
@@ -198,7 +199,7 @@ class Image extends \SmartWork\Model
 	/**
 	 * @return integer
 	 */
-	public function getImageId()
+	public function getImageId(): int
 	{
 		return $this->imageId;
 	}
@@ -206,7 +207,7 @@ class Image extends \SmartWork\Model
 	/**
 	 * @return \SmartWork\User
 	 */
-	public function getUser()
+	public function getUser(): \SmartWork\User
 	{
 		return $this->user;
 	}
@@ -214,7 +215,7 @@ class Image extends \SmartWork\Model
 	/**
 	 * @return string
 	 */
-	public function getImagename()
+	public function getImagename(): string
 	{
 		return $this->imagename;
 	}
@@ -222,7 +223,7 @@ class Image extends \SmartWork\Model
 	/**
 	 * @return string
 	 */
-	public function getMimetype()
+	public function getMimetype(): string
 	{
 		return $this->mimetype;
 	}
@@ -230,7 +231,7 @@ class Image extends \SmartWork\Model
 	/**
 	 * @return string
 	 */
-	public function getHash()
+	public function getHash(): string
 	{
 		return $this->hash;
 	}
@@ -238,7 +239,7 @@ class Image extends \SmartWork\Model
 	/**
 	 * @return \DateTime
 	 */
-	public function getAddDateTime()
+	public function getAddDateTime(): \DateTime
 	{
 		return $this->addDateTime;
 	}
@@ -253,7 +254,7 @@ class Image extends \SmartWork\Model
 	 *
 	 * @return string
 	 */
-	public function getImage($hash, $date, $showImage = true, $showThumb = false)
+	public function getImage(string $hash, string $date, bool $showImage = true, bool $showThumb = false): string
 	{
 		$translator = \SmartWork\Translator::getInstance();
 
@@ -343,7 +344,7 @@ class Image extends \SmartWork\Model
 		if ($image_width > 100)
 		{
 			$new_image_width = 100;
-			$new_image_height = $image_height / ($image_width / 100);
+			$new_image_height = intval($image_height / ($image_width / 100));
 		}
 
 		$new_image = imagecreatetruecolor($new_image_width, $new_image_height);
@@ -382,7 +383,7 @@ class Image extends \SmartWork\Model
 	 *						file_not_allowed: the mime type of the uploaded image is not supported
 	 *						self: image was successfully uploaded and processed
 	 */
-	public static function upload($file)
+	public static function upload(array $file)
 	{
 		$userfile_name = $file['name'][0];
 		$userfile_tmp = $file['tmp_name'][0];

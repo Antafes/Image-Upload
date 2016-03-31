@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of Image Upload.
  *
@@ -37,7 +38,8 @@ class Logout extends \SmartWork\Page
 	 */
 	public function __construct()
 	{
-	}
+        parent::__construct('');
+    }
 
 	/**
 	 * Destroy the session and redirect to the login page.

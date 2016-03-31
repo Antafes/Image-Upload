@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of Image Upload.
  *
@@ -35,11 +36,9 @@ class Images extends \SmartWork\Listing
 	/**
 	 * Load all images.
 	 *
-	 * @param integer $userId
-	 *
 	 * @return \self
 	 */
-	public static function loadList()
+	public static function loadList(): Images
 	{
 		$sql = '
 			SELECT `imageId`
@@ -59,7 +58,7 @@ class Images extends \SmartWork\Listing
 		$list = array();
 		foreach ($imageIds as $image)
 		{
-			$imageObject = \Model\Image::loadById($image['imageId']);
+			$imageObject = \Model\Image::loadById(intval($image['imageId']));
 
 			$list[$imageObject->getImageId()] = $imageObject;
 		}
@@ -76,7 +75,7 @@ class Images extends \SmartWork\Listing
 	 *
 	 * @return \Model\Image
 	 */
-	public function getById($id)
+	public function getById(int $id): \Model\Image
 	{
 		return $this->list[$id];
 	}

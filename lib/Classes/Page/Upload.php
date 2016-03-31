@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of Image Upload.
  *
@@ -47,7 +48,7 @@ class Upload extends \SmartWork\Page
 	 */
 	public function process()
 	{
-		$this->upload($_FILES['fileupload'], $_POST['upload']);
+		$this->upload((array) $_FILES['fileupload'], strval($_POST['upload']));
 	}
 
 	/**
@@ -58,7 +59,7 @@ class Upload extends \SmartWork\Page
 	 *
 	 * @return void
 	 */
-	protected function upload($file, $salt)
+	protected function upload(array $file, string $salt)
 	{
 		if (!$salt || $salt != $_SESSION['formSalts']['upload'])
 			return;

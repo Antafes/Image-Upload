@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of Image Upload.
  *
@@ -48,8 +49,11 @@ class Register extends \SmartWork\Page
 	public function process()
 	{
 		$this->register(
-			$_POST['username'], $_POST['password'], $_POST['repeatPassword'], $_POST['email'],
-			$_POST['register']
+            strval($_POST['username']),
+            strval($_POST['password']),
+            strval($_POST['repeatPassword']),
+            strval($_POST['email']),
+			strval($_POST['register'])
 		);
 	}
 
@@ -64,7 +68,7 @@ class Register extends \SmartWork\Page
 	 *
 	 * @return void
 	 */
-	protected function register($username, $password, $repeatPassword, $email, $salt)
+	protected function register(string $username, string $password, string $repeatPassword, string $email, string $salt)
 	{
 		if (!$salt || $salt != $_SESSION['formSalts']['register'])
 			return;

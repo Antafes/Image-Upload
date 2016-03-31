@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of Image Upload.
  *
@@ -84,7 +85,7 @@ class Admin extends \SmartWork\Page
 	 *
 	 * @return array
 	 */
-	protected function getUserList()
+	protected function getUserList(): array
 	{
 		$sql = '
 			SELECT userId
@@ -95,7 +96,7 @@ class Admin extends \SmartWork\Page
 
 		$userList = array();
 		foreach ($users as $user)
-			$userList[] = \SmartWork\User::getUserById($user['userId']);
+			$userList[] = \SmartWork\User::getUserById(intval($user['userId']));
 
 		return $userList;
 	}
@@ -104,8 +105,10 @@ class Admin extends \SmartWork\Page
 	 * Activate the given user.
 	 *
 	 * @param integer $userId
+     *
+     * @return void
 	 */
-	protected function activateUser($userId)
+	protected function activateUser(int $userId)
 	{
 		$user = \SmartWork\User::getUserById($userId);
 		$user->activate();
@@ -119,7 +122,7 @@ class Admin extends \SmartWork\Page
 	 *
 	 * @return void
 	 */
-	protected function changeAdminStatus($userId, $status)
+	protected function changeAdminStatus(int $userId, bool $status)
 	{
 		$user = \SmartWork\User::getUserById($userId);
 		$user->setAdmin($status);
