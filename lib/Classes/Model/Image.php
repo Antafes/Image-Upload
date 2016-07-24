@@ -462,17 +462,17 @@ class Image extends \SmartWork\Model
 		if ($image_width > 1024)
 		{
 			$new_image_width = 1024;
-			$new_image_height = $image_height / ($image_width / 1024);
+			$new_image_height = intval($image_height / ($image_width / 1024));
 		}
 		elseif ($image_height > 768)
 		{
-			$new_image_width = $image_width / ($image_height / 768);
+			$new_image_width = intval($image_width / ($image_height / 768));
 			$new_image_height = 768;
 		}
 		else
 		{
-			$new_image_width = $image_width;
-			$new_image_height = $image_height;
+			$new_image_width = intval($image_width);
+			$new_image_height = intval($image_height);
 		}
 
 		$new_image = imagecreatetruecolor($new_image_width, $new_image_height);
